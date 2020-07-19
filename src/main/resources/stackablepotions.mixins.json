@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "cursedflames.stackablepotions.mixin",
+	"compatibilityLevel": "JAVA_8",
+	"mixins": [
+		"ItemsMixin",
+		"ThrowablePotionItemMixin",
+		"BrewingStandScreenHandlerMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "stackablepotions",
+	"version": "${version}",
+
+	"name": "Stackable Potions",
+	"description": "Allows vanilla potions to stack.",
+	"authors": [
+		"CursedFlames"
+	],
+	"contact": {
+		"sources": "https://github.com/CursedFlames/StackablePotions"
+	},
+
+	"license": "MIT",
+	"icon": "assets/stackablepotions/icon.png",
+
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"cursedflames.stackablepotions.StackablePotions"
+		]
+	},
+	"mixins": [
+		"stackablepotions.mixins.json"
+	],
+	"accessWidener": "stackablepotions.accesswidener",
+	"depends": {
+		"fabricloader": ">=0.7.4",
+		"fabric": "*",
+		"minecraft": "1.16.x"
+	}
+}
