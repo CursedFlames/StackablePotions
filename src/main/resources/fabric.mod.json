@@ -9,7 +9,9 @@
 		"CursedFlames"
 	],
 	"contact": {
-		"sources": "https://github.com/CursedFlames/StackablePotions"
+		"homepage": "",
+		"sources": "https://github.com/CursedFlames/StackablePotions",
+		"issues": "https://github.com/CursedFlames/StackablePotions/issues"
 	},
 
 	"license": "MIT",
