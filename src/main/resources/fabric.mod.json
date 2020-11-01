@@ -18,11 +18,7 @@
 	"icon": "assets/stackablepotions/icon.png",
 
 	"environment": "*",
-	"entrypoints": {
-		"main": [
-			"cursedflames.stackablepotions.StackablePotions"
-		]
-	},
+
 	"mixins": [
 		"stackablepotions.mixins.json"
 	],
