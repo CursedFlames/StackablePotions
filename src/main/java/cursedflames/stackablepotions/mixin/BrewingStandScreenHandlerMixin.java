@@ -1,7 +1,8 @@
 package cursedflames.stackablepotions.mixin;
 
+import net.minecraft.item.Items;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -20,7 +21,7 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 	private BrewingStandScreenHandlerMixin(ScreenHandlerType<?> type, int syncId) {
 		super(type, syncId);
 	}
-	
+
 	@Inject(method = "transferSlot",
 			at = @At(value = "INVOKE",
 					target = "Lnet/minecraft/screen/BrewingStandScreenHandler$PotionSlot;matches(Lnet/minecraft/item/ItemStack;)Z"),
@@ -29,7 +30,7 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 	private void onTransferSlot(PlayerEntity player, int index, CallbackInfoReturnable<ItemStack> info,
 			ItemStack itemStack, Slot slot, ItemStack itemStack2) {
 		// Replace vanilla shift-click behavior for potions with our own, to prevent getting more than one in a slot
-		if (PotionSlotAccessor.matches(itemStack)) {
+		if (slot.canInsert(itemStack)) {
 			boolean movedItems = false;
 			for (int i = 0; i < 3; i++) {
 				Slot slot2 = this.getSlot(i);
@@ -46,8 +47,8 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 					if (itemStack2.isEmpty()) break;
 				}
 			}
-			// Vanilla behavior seems to be this, although I'm not sure why.
-			if (!movedItems) {
+			// returned value sets current slot
+			if (movedItems) {
                 info.setReturnValue(ItemStack.EMPTY);
             }
 		}
