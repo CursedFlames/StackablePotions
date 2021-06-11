@@ -34,8 +34,8 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 			for (int i = 0; i < 3; i++) {
 				Slot slot2 = this.getSlot(i);
 				if (slot2.getStack().isEmpty() && slot.canInsert(itemStack2)) {
-					if (itemStack2.getCount() > slot2.getMaxStackAmount()) {
-						slot2.setStack(itemStack2.split(slot2.getMaxStackAmount()));
+					if (itemStack2.getCount() > slot2.getMaxItemCount()) {
+						slot2.setStack(itemStack2.split(slot2.getMaxItemCount()));
 					} else {
 						slot2.setStack(itemStack2.split(itemStack2.getCount()));
 					}
