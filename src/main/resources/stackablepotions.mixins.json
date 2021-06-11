@@ -7,7 +7,8 @@
 		"ItemsMixin",
 		"ThrowablePotionItemMixin",
 		"BrewingStandScreenHandlerMixin",
-		"PotionItemMixin"
+		"PotionItemMixin",
+		"PotionSlotAccessor"
 	],
 	"injectors": {
 		"defaultRequire": 1

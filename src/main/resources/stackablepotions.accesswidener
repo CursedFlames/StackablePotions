@@ -1,4 +1,0 @@
-accessWidener	v1	named
-
-# PotionSlot is a non-visible inner class so we need an access widener rather than a mixin. I think.
-accessible class net/minecraft/screen/BrewingStandScreenHandler$PotionSlot

@@ -1,6 +1,7 @@
 package cursedflames.stackablepotions.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Invoker;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -20,16 +21,15 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 		super(type, syncId);
 	}
 	
-	// FIXME change to FAILSOFT for release
 	@Inject(method = "transferSlot",
 			at = @At(value = "INVOKE",
 					target = "Lnet/minecraft/screen/BrewingStandScreenHandler$PotionSlot;matches(Lnet/minecraft/item/ItemStack;)Z"),
-			locals = LocalCapture.CAPTURE_FAILHARD,
+			locals = LocalCapture.CAPTURE_FAILSOFT,
 			cancellable = true)
 	private void onTransferSlot(PlayerEntity player, int index, CallbackInfoReturnable<ItemStack> info,
 			ItemStack itemStack, Slot slot, ItemStack itemStack2) {
 		// Replace vanilla shift-click behavior for potions with our own, to prevent getting more than one in a slot
-		if (BrewingStandScreenHandler.PotionSlot.matches(itemStack)) {
+		if (PotionSlotAccessor.matches(itemStack)) {
 			boolean movedItems = false;
 			for (int i = 0; i < 3; i++) {
 				Slot slot2 = this.getSlot(i);
