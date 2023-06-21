@@ -22,13 +22,16 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 		super(type, syncId);
 	}
 
-	@Inject(method = "transferSlot",
-			at = @At(value = "INVOKE",
-					target = "Lnet/minecraft/screen/BrewingStandScreenHandler$PotionSlot;matches(Lnet/minecraft/item/ItemStack;)Z"),
-			locals = LocalCapture.CAPTURE_FAILSOFT,
-			cancellable = true)
-	private void onTransferSlot(PlayerEntity player, int index, CallbackInfoReturnable<ItemStack> info,
-			ItemStack itemStack, Slot slot, ItemStack itemStack2) {
+	@Inject(method = "quickMove",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/screen/BrewingStandScreenHandler$PotionSlot;matches(Lnet/minecraft/item/ItemStack;)Z"),
+		locals = LocalCapture.CAPTURE_FAILSOFT,
+		cancellable = true)
+	private void onTransferSlot(
+		PlayerEntity player, int slotIndex, CallbackInfoReturnable<ItemStack> cir, ItemStack itemStack, Slot slot,
+		ItemStack itemStack2)
+	{
 		// Replace vanilla shift-click behavior for potions with our own, to prevent getting more than one in a slot
 		if (slot.canInsert(itemStack)) {
 			boolean movedItems = false;
@@ -49,17 +52,19 @@ public abstract class BrewingStandScreenHandlerMixin extends ScreenHandler {
 			}
 			// returned value sets current slot
 			if (movedItems) {
-                info.setReturnValue(ItemStack.EMPTY);
+                cir.setReturnValue(ItemStack.EMPTY);
             }
 		}
 	}
 	
-	@Redirect(method = "transferSlot",
-			at = @At(value = "INVOKE",
-					target = "Lnet/minecraft/screen/BrewingStandScreenHandler$PotionSlot;matches(Lnet/minecraft/item/ItemStack;)Z"))
+	@Redirect(
+		method = "quickMove",
+		at = @At(
+			value = "INVOKE",
+			target = "Lnet/minecraft/screen/BrewingStandScreenHandler$PotionSlot;matches(Lnet/minecraft/item/ItemStack;)Z"))
 	private boolean onTransferSlotRedirect(ItemStack stack, PlayerEntity player, int index) {
-		// Block the default shift-clicking into potion slots so we can do it ourselves.
-		// Unfortunately because we're cancelling the vanilla `if`, the else ifs run, meaning the player can
+		// Block the default shift-clicking into potion slots, so we can do it ourselves.
+		// Unfortunately, because we're cancelling the vanilla `if`, the else ifs run, meaning the player can
 		// shift-click into potion slots with more than 3 potions and the rest of the stack will also get moved around
 		// kinda annoying but whatever, don't know of a clean solution for it.
 		return false;
