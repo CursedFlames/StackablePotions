@@ -19,9 +19,10 @@ public abstract class ThrowablePotionItemMixin extends PotionItem {
 		super(settings);
 	}
 
-	@Inject(method="use", at=@At("RETURN"))
-	private void onUse(World world, PlayerEntity user, Hand hand,
-			CallbackInfoReturnable<TypedActionResult<ItemStack>> info) {
+	@Inject(method = "use", at = @At("RETURN"))
+	private void onUse(
+		World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> info)
+	{
 		// Add a cooldown so that splash damage/health doesn't become absurdly overpowered when stackable
 		user.getItemCooldownManager().set(this, 20);
 	}

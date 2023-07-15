@@ -13,10 +13,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(PotionItem.class)
 public abstract class PotionItemMixin {
-    @Inject(method = "finishUsing(Lnet/minecraft/item/ItemStack;Lnet/minecraft/world/World;Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/item/ItemStack;", cancellable = true,
-        at = @At(value = "INVOKE",target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z", shift = At.Shift.BEFORE))
+    @Inject(
+        method = "finishUsing",
+        at = @At(
+            value = "INVOKE",
+            target = "Lnet/minecraft/entity/player/PlayerInventory;insertStack(Lnet/minecraft/item/ItemStack;)Z",
+            shift = At.Shift.BEFORE),
+        cancellable = true)
     public void finishUsing(ItemStack stack, World world, LivingEntity user, CallbackInfoReturnable<ItemStack> cir) {
-        if (user instanceof PlayerEntity) ((PlayerEntity)user).getInventory().offerOrDrop(Items.GLASS_BOTTLE.getDefaultStack());
+        if (user instanceof PlayerEntity)
+            ((PlayerEntity) user).getInventory().offerOrDrop(Items.GLASS_BOTTLE.getDefaultStack());
         cir.setReturnValue(stack);
     }
 }
